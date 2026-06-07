@@ -109,7 +109,7 @@ export interface SearchItem {
 
 const props = defineProps<{
   columns: ColumnConfig[]
-  api: (params: Record<string, any>) => Promise<any>
+  api: (...args: any[]) => Promise<any>
   searchForm?: { items: SearchItem[] }
   actionWidth?: string | number
   showPagination?: boolean

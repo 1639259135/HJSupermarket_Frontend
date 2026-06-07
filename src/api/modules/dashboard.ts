@@ -13,3 +13,8 @@ export interface DashboardSummary {
 export function getDashboardSummary(): Promise<DashboardSummary> {
   return get<DashboardSummary>('/api/dashboard/summary')
 }
+
+/** 进货趋势（后端返回占位数据） */
+export function getPurchaseTrend() {
+  return get<{ dates: string[]; values: number[] }>('/api/dashboard/trend')
+}
