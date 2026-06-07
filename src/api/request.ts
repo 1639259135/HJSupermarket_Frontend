@@ -4,6 +4,7 @@ import { snakeToCamel } from '@/utils/snakeToCamel'
 import router from '@/router'
 import { useAuthStore } from '@/stores/auth'
 
+// 业务错误码 → 中文提示映射
 const errorCodeMap: Record<string | number, string> = {
   400: '请检查输入',
   401: '登录已过期',
@@ -24,6 +25,7 @@ const instance: AxiosInstance = axios.create({
   timeout: 30_000,
 })
 
+// ---- 请求拦截器：注入 Token ----
 instance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   const auth = useAuthStore()
   if (auth.token) {
@@ -32,23 +34,29 @@ instance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   return config
 })
 
+// ---- 响应拦截器：蛇形转驼峰 + 业务码处理 ----
 instance.interceptors.response.use(
   (response: AxiosResponse) => {
+    // 递归蛇形转驼峰
     if (response.data) {
       response.data = snakeToCamel(response.data)
     }
     const body = response.data
+    // 业务码判断
     if (body && typeof body.code === 'number') {
       if (body.code === 200) {
+        // 成功 → 返回 data 字段
         response.data = body.data ?? body
         return response
       }
+      // 401 / 1002 → 清 Token 跳登录
       if (body.code === 401 || body.code === 1002) {
         const auth = useAuthStore()
         auth.clearAuth()
         router.push('/login')
         return Promise.reject(new Error(body.message || '登录已过期'))
       }
+      // 其他业务错误
       ElMessage.error(resolveMessage(body.code, body.message))
       return Promise.reject(new Error(body.message || `业务错误 ${body.code}`))
     }
@@ -70,6 +78,7 @@ instance.interceptors.response.use(
   },
 )
 
+// ---- 泛型封装 ----
 export async function get<T = any>(url: string, params?: Record<string, any>): Promise<T> {
   const res = await instance.get<T>(url, { params })
   return res.data

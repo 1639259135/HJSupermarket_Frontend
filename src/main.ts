@@ -12,6 +12,7 @@ import './style.css'
 
 const app = createApp(App)
 
+// 注册所有 Element Plus 图标
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }
@@ -20,6 +21,7 @@ app.use(ElementPlus, { locale: zhCn })
 app.use(router)
 app.use(pinia)
 
+// 注册权限指令
 app.directive('permission', vPermission)
 
 app.mount('#app')

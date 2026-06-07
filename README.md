@@ -1,35 +1,5 @@
-# HJ 超市管理系统 — Web 前端
+# Vue 3 + TypeScript + Vite
 
-> 技术栈: Vue 3 + Element Plus + TypeScript + Vite
+This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
 
-## 快速启动
-
-```bash
-npm install
-npm run dev
-```
-
-## 项目结构
-
-```
-src/
-├── api/          # Axios 封装 + 接口模块
-├── components/   # 通用组件 (DataTable, FormDialog)
-├── directives/   # 自定义指令 (v-permission)
-├── layouts/      # 布局组件
-├── router/       # 路由配置
-├── stores/       # Pinia 状态管理
-├── utils/        # 工具函数 (snakeToCamel)
-├── views/        # 页面组件
-├── App.vue
-└── main.ts
-```
-
-## 环境变量
-
-- `.env.development` — 开发环境，API 代理到 `http://localhost:8080`
-- `.env.production` — 生产环境
-
-## 后端接口文档
-
-参考 `HJSupermarket_Frontend_Tasks_adjusted.md`
+Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).

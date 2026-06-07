@@ -1,10 +1,13 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
+// 懒加载页面
 const Login = () => import('@/views/login/Login.vue')
 const Dashboard = () => import('@/views/dashboard/Dashboard.vue')
 const NotFound = () => import('@/views/error/NotFound.vue')
 const Forbidden = () => import('@/views/error/Forbidden.vue')
+
+// 占位组件（后续阶段实现）
 const Placeholder = () => import('@/views/Placeholder.vue')
 
 const routes: RouteRecordRaw[] = [
@@ -52,14 +55,20 @@ const router = createRouter({
   routes,
 })
 
+// ---- 路由守卫 ----
 router.beforeEach((to, _from, next) => {
   const auth = useAuthStore()
+
+  // 公开页面直接放行
   if (to.meta.public) {
     return next()
   }
+
+  // 未登录 → 跳转登录
   if (!auth.isLoggedIn) {
     return next({ name: 'Login', query: { redirect: to.fullPath } })
   }
+
   next()
 })
 
