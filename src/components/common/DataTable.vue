@@ -1,5 +1,6 @@
 <template>
   <div class="data-table-wrapper">
+    <!-- 搜索栏 -->
     <el-form v-if="searchForm && searchForm.items?.length" :inline="true" :model="searchData" class="search-form">
       <el-form-item
         v-for="item in searchForm.items"
@@ -34,10 +35,12 @@
       </el-form-item>
     </el-form>
 
+    <!-- 操作栏 -->
     <div class="toolbar" v-if="$slots.toolbar">
       <slot name="toolbar" />
     </div>
 
+    <!-- 表格 -->
     <el-table
       :data="tableData"
       v-loading="loading"
@@ -72,6 +75,7 @@
       </el-table-column>
     </el-table>
 
+    <!-- 分页 -->
     <div class="pagination" v-if="showPagination">
       <el-pagination
         v-model:current-page="currentPage"
@@ -149,6 +153,7 @@ async function refresh() {
       }
     }
     const res = await props.api(params)
+    // 后端分页格式: { list, total }
     if (res && res.list) {
       tableData.value = res.list
       total.value = res.total ?? 0

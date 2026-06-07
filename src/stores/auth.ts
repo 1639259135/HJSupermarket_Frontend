@@ -14,6 +14,7 @@ export const useAuthStore = defineStore('auth', () => {
   const realName = ref<string>(localStorage.getItem('realName') || '')
   const roleId = ref<number>(0)
 
+  // 从 Token 解码 roleId
   function parseRoleId(): number {
     if (!token.value) return 0
     try {
@@ -24,6 +25,7 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  // 初始化时解析
   roleId.value = parseRoleId()
 
   const isLoggedIn = computed(() => !!token.value)

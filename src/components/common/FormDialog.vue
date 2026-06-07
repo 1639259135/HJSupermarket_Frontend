@@ -8,6 +8,7 @@
   >
     <el-form ref="formRef" :model="form" :rules="formRules" label-width="100px">
       <template v-for="field in fields" :key="field.prop">
+        <!-- Input -->
         <el-form-item
           v-if="field.type === 'input' || field.type === 'textarea'"
           :label="field.label"
@@ -22,6 +23,7 @@
           />
         </el-form-item>
 
+        <!-- InputNumber -->
         <el-form-item
           v-else-if="field.type === 'number'"
           :label="field.label"
@@ -35,6 +37,7 @@
           />
         </el-form-item>
 
+        <!-- Select -->
         <el-form-item
           v-else-if="field.type === 'select'"
           :label="field.label"
@@ -54,6 +57,7 @@
           </el-select>
         </el-form-item>
 
+        <!-- TreeSelect (级联) -->
         <el-form-item
           v-else-if="field.type === 'treeSelect'"
           :label="field.label"
@@ -69,6 +73,7 @@
           />
         </el-form-item>
 
+        <!-- Switch -->
         <el-form-item
           v-else-if="field.type === 'switch'"
           :label="field.label"
@@ -81,6 +86,7 @@
           />
         </el-form-item>
 
+        <!-- DatePicker -->
         <el-form-item
           v-else-if="field.type === 'date'"
           :label="field.label"
@@ -166,12 +172,13 @@ const formRules = computed(() => {
   return rules
 })
 
+// 打开新建
 function openCreate() {
   Object.assign(form, initialForm())
   editId.value = undefined
   visible.value = true
 }
-
+// 打开编辑（回填）
 function openEdit(row: Record<string, any>) {
   for (const key of Object.keys(form)) {
     if (row[key] !== undefined) {

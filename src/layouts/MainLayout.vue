@@ -116,6 +116,7 @@ const collapsed = ref(false)
 
 const activeMenu = computed(() => {
   const path = route.path
+  // 子路由高亮父菜单
   const parts = path.split('/').filter(Boolean)
   if (parts.length >= 2) return '/' + parts[0]
   return path
